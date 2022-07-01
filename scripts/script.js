@@ -1,5 +1,13 @@
-const to_do_submission = document.getElementById('submit');
+// Prevent page from refreshing when user presses enter on input field
+const input_field = document.getElementById('task');
+input_field.addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+});
+
 // Add new task when user clicks on the submit button
+const to_do_submission = document.getElementById('submit');
 to_do_submission.addEventListener('click', append_task);
 
 let task_list = document.getElementById('to-do-list');
