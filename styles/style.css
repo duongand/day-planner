@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    list-style: none;
+}
+
+.incomplete, .completed {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
