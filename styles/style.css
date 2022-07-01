@@ -3,19 +3,56 @@ body {
     padding: 0;
     box-sizing: border-box;
     text-align: center;
+    font-size: 1.2rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.task {
+    width: 300px;
+    padding: 5px;
+    border-radius: 5px;
+    border-color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#submit {
+    padding: 5px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .container {
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 li {
+    margin: 5px;
     list-style: none;
 }
 
-.incomplete, .completed {
+.incomplete {
     background: none;
     border: none;
     cursor: pointer;
+
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.completed {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    color: #000;
+    color: rgba(0, 0, 0, 0.5);
+
+    margin-right: 5px;
+    font-size: 16px;    
+}
+
+.remove {
+    align-items: center;
 }

@@ -1,8 +1,9 @@
 const to_do_submission = document.getElementById('submit');
+// Add new task when user clicks on the submit button
 to_do_submission.addEventListener('click', append_task);
 
 let task_list = document.getElementById('to-do-list');
-task_list.addEventListener('click', function(event) {
+task_list.addEventListener('click', function (event) {
     // Uses the DOM Event Delegation to apply event listener to new list elements
     const target = event.target;
 
@@ -16,7 +17,6 @@ task_list.addEventListener('click', function(event) {
     } else if (target.className === 'remove') {
         target.parentElement.remove();
     };
-    
 
 });
 
@@ -26,16 +26,21 @@ function append_task() {
     let task_submission = document.getElementById('task');
     let task_list = document.getElementById('to-do-list');
 
-    // Create button element
+    // Prevent adding blank tasks
+    if (task_submission.value === '') {
+        return
+    };
+
+    // Button to remove the new task
     let task_button = document.createElement('button');
     task_button.setAttribute('class', 'remove');
     task_button.innerHTML = 'X';
-    
-    // Create list element
+
+    // Creating the parent <li> element for the submitted task
     let task_li = document.createElement('li');
     task_li.setAttribute('class', task_submission.value);
-    
-    // Create <a> element
+
+    // Button imitating plain text to allow for configurable CSS
     let task = document.createElement('button');
     task.setAttribute('class', 'incomplete');
     task.innerHTML = task_submission.value;
@@ -47,7 +52,6 @@ function append_task() {
     task_list.appendChild(task_li);
 
     clear_input();
-    task_delete_buttons = document.querySelectorAll('.submitted-task');
 
 };
 
