@@ -1,72 +1,56 @@
-// Prevent page from refreshing when user presses enter on input field
-const input_field = document.getElementById('task');
-input_field.addEventListener('keypress', function (event) {
+document.getElementById('task').addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
     }
 });
 
-// Add new task when user clicks on the submit button
-const to_do_submission = document.getElementById('submit');
-to_do_submission.addEventListener('click', append_task);
+document.getElementById('submit').addEventListener('click', appendTask);
 
-let task_list = document.getElementById('to-do-list');
-task_list.addEventListener('click', function (event) {
-    // Uses the DOM Event Delegation to apply event listener to new list elements
+const taskList = document.getElementById('to-do-list');
+taskList.addEventListener('click', function (event) {
     const target = event.target;
 
-    // Check the current state of the added task item
-    if (target.className === 'incomplete') {
-        target.style.textDecoration = 'line-through';
-        target.className = 'completed';
-    } else if (target.className === 'completed') {
-        target.style.removeProperty('text-decoration');
-        target.className = 'incomplete';
-    } else if (target.className === 'remove') {
-        target.parentElement.remove();
+    switch (target.className) {
+        case 'incomplete':
+            target.style.textDecoration = 'line-through';
+            target.className = 'completed';
+            break;
+        case 'completed':
+            target.style.removeProperty('text-decoration');
+            target.className = 'incomplete';
+            break;
+        case 'remove':
+            target.parentElement.remove();
+            break;
+        default:
+            break;
     };
-
 });
 
-function append_task() {
+function appendTask() {
+    const taskSubmission = document.getElementById('task');
 
-    // Pull value from input field
-    let task_submission = document.getElementById('task');
-    let task_list = document.getElementById('to-do-list');
+    if (taskSubmission.value === '') return;
 
-    // Prevent adding blank tasks
-    if (task_submission.value === '') {
-        return
-    };
+    const taskButton = document.createElement('button');
+    taskButton.setAttribute('class', 'remove');
+    taskButton.innerHTML = 'X';
 
-    // Button to remove the new task
-    let task_button = document.createElement('button');
-    task_button.setAttribute('class', 'remove');
-    task_button.innerHTML = 'X';
+    const taskListElement = document.createElement('li');
+    taskListElement.setAttribute('class', taskSubmission.value);
 
-    // Creating the parent <li> element for the submitted task
-    let task_li = document.createElement('li');
-    task_li.setAttribute('class', task_submission.value);
-
-    // Button imitating plain text to allow for configurable CSS
-    let task = document.createElement('button');
+    const task = document.createElement('button');
     task.setAttribute('class', 'incomplete');
-    task.innerHTML = task_submission.value;
+    task.innerHTML = taskSubmission.value;
 
-    task_li.appendChild(task);
-    task_li.appendChild(task_button);
+    taskListElement.appendChild(task);
+    taskListElement.appendChild(taskButton);
 
-    // Append to end of task list
-    task_list.appendChild(task_li);
+    taskList.appendChild(taskListElement);
 
-    clear_input();
-
+    clearInput();
 };
 
-// Clears form field after new task has been added
-function clear_input() {
-
-    let input_field = document.getElementById('task');
-    input_field.value = '';
-
-}
+function clearInput() {
+    document.getElementById('task').value = '';
+};
