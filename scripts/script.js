@@ -13,23 +13,23 @@ taskList.addEventListener('click', (event) => {
     switch (target.className) {
         case 'incomplete':
             target.className = 'completed';
-            window.localStorage.setItem(target.innerText, 'completed');
+            updateTask(target.innerText, 'completed');
             break;
         case 'completed':
             target.className = 'incomplete';
-            window.localStorage.setItem(target.innerText, 'incomplete');
+            updateTask(target.innerText, 'incomplete');
             break;
         case 'remove':
             target.parentElement.remove();
-            window.localStorage.removeItem(target.previousSibling.innerText);
+            updateTask(target.previousSibling.innerText, 'remove');
             break;
         default:
             break;
     };
 });
 
+let storedTasks = [];
 function createTaskElement(taskSubmission, status) {
-
     const taskButton = document.createElement('button');
     taskButton.setAttribute('class', 'remove');
     taskButton.innerHTML = 'X';
@@ -45,7 +45,10 @@ function createTaskElement(taskSubmission, status) {
     taskListElement.appendChild(taskButton);
     taskList.appendChild(taskListElement);
 
-    window.localStorage.setItem(taskSubmission, status);
+    tempMap = {'task': taskSubmission, 'status': status};
+
+    storedTasks.push(tempMap);
+    window.localStorage.setItem('to-dos', JSON.stringify(storedTasks));
 };
 
 function appendTask() {
@@ -57,9 +60,27 @@ function appendTask() {
     document.getElementById('task').value = '';
 };
 
+function updateTask(passedTask, newStatus) {
+    let index;
+    for (let i = 0; i < storedTasks.length; i++) {
+        if (storedTasks[i].task === passedTask) {
+            index = i;
+        };
+    };
+
+    if (newStatus === 'remove') {
+        storedTasks.splice(index, 1);
+    } else {
+        storedTasks[index].status = newStatus;
+    };
+
+    window.localStorage.setItem('to-dos', JSON.stringify(storedTasks));
+};
+
 if (window.localStorage.length > 0) {
-    for (let i = 0; i < window.localStorage.length; i++) {
-        let taskKey = window.localStorage.key(i);
-        createTaskElement(taskKey, window.localStorage.getItem(taskKey));
+    const taskArray = JSON.parse(window.localStorage.getItem('to-dos'));
+
+    for (let i = 0; i < taskArray.length; i++) {
+        createTaskElement(taskArray[i].task, taskArray[i].status);
     };
 };
